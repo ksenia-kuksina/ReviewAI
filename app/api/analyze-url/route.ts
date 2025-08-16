@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { extractReviewsFromUrl, analyzeReviewsWithAI } from '@/lib/review-analyzer-simple'
+import { extractReviewsFromUrl, analyzeReviewsWithAI } from '@/lib/review-analyzer-ai'
 import { generateSlug } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {

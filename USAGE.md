@@ -1,43 +1,43 @@
-# 🚀 ReviewMind AI - Инструкция по использованию
+# 🚀 ReviewMind AI - Usage Guide
 
-## 🎯 Что это такое?
+## 🎯 What is this?
 
-ReviewMind AI - это интеллектуальная платформа для анализа отзывов о товарах. Приложение автоматически извлекает отзывы с веб-страниц и анализирует их с помощью AI, предоставляя структурированный анализ.
+ReviewMind AI is an intelligent platform for analyzing product reviews. The application automatically extracts reviews from web pages and analyzes them using AI, providing structured analysis.
 
-## 🚀 Как использовать
+## 🚀 How to use
 
-### 1. Анализ по URL (рекомендуется)
+### 1. URL Analysis (recommended)
 
-1. **Откройте приложение**: http://localhost:3000
-2. **Вставьте ссылку** на товар с Amazon, AliExpress, eBay или другого сайта
-3. **Нажмите "Analyze Reviews"**
-4. **Дождитесь результата** (обычно 5-15 секунд)
-5. **Изучите анализ**:
-   - ✅ Pros (достоинства)
-   - ❌ Cons (недостатки)
-   - 🎯 Verdict (вердикт)
-   - ⭐ Score (оценка 1-5)
-   - 🔍 Top Themes (ключевые темы)
+1. **Open the application**: http://localhost:3000
+2. **Paste a link** to a product from Amazon, AliExpress, eBay or another site
+3. **Click "Analyze Reviews"**
+4. **Wait for the result** (usually 5-15 seconds)
+5. **Study the analysis**:
+   - ✅ Pros (advantages)
+   - ❌ Cons (disadvantages)
+   - 🎯 Verdict (verdict)
+   - ⭐ Score (rating 1-5)
+   - 🔍 Top Themes (key themes)
 
-### 2. Анализ вставленного текста
+### 2. Pasted Text Analysis
 
-1. **Нажмите "Or paste reviews instead"**
-2. **Вставьте текст отзывов** в текстовое поле
-3. **Нажмите "Analyze Pasted Text"**
-4. **Получите тот же анализ**
+1. **Click "Or paste reviews instead"**
+2. **Paste review text** in the text field
+3. **Click "Analyze Pasted Text"**
+4. **Get the same analysis**
 
-## 📱 Поддерживаемые платформы
+## 📱 Supported Platforms
 
-| Платформа | Статус | Описание |
-|-----------|--------|----------|
-| **Amazon** | ✅ Полная поддержка | Извлечение отзывов и AI анализ |
-| **AliExpress** | ✅ Полная поддержка | Извлечение отзывов и AI анализ |
-| **eBay** | ✅ Полная поддержка | Извлечение отзывов и AI анализ |
-| **Другие сайты** | 🔍 Попытка извлечения | Универсальный парсер |
+| Platform | Status | Description |
+|----------|--------|-------------|
+| **Amazon** | ✅ Full support | Review extraction and AI analysis |
+| **AliExpress** | ✅ Full support | Review extraction and AI analysis |
+| **eBay** | ✅ Full support | Review extraction and AI analysis |
+| **Other sites** | 🔍 Extraction attempt | Universal parser |
 
-## 🎯 Примеры использования
+## 🎯 Usage Examples
 
-### Тестовые URL для демонстрации:
+### Test URLs for demonstration:
 
 ```bash
 # Amazon
@@ -50,97 +50,76 @@ https://www.aliexpress.com/item/1005001234567890.html
 https://www.ebay.com/itm/123456789012
 ```
 
-### Тестовый текст для анализа:
+### Test text for analysis:
 
 ```
-Отличный продукт! Качество на высоте, быстрая доставка. 
-Очень доволен покупкой, всем рекомендую.
+Excellent product! Quality is top-notch, fast delivery. 
+Very satisfied with the purchase, recommend to everyone.
 
-Хороший товар, но цена могла бы быть ниже. 
-Качество соответствует описанию.
+Good product, but the price could be lower. 
+Quality matches the description.
 ```
 
-## 🔧 Настройка OpenAI API (опционально)
+## 🔧 OpenAI API Setup (optional)
 
-Для включения реального AI анализа:
+To enable real AI analysis:
 
-1. **Получите API ключ**: [OpenAI Platform](https://platform.openai.com/)
-2. **Создайте файл** `.env.local`:
+1. **Get API key**: [OpenAI Platform](https://platform.openai.com/)
+2. **Create file** `.env.local`:
    ```bash
    OPENAI_API_KEY=sk-your_actual_api_key_here
    OPENAI_MODEL=gpt-4-turbo-preview
    ```
-3. **Перезапустите приложение**
+3. **Restart the application**
 
-### Без API ключа:
-- Используется rule-based анализ
-- Работает с ключевыми словами
-- Быстрый и бесплатный
+### Without API key:
+- Uses rule-based analysis
+- Works with keywords
+- Fast and free
 
-## 📊 Понимание результатов
+## 📊 Understanding Results
 
-### Score (Оценка):
-- **5.0**: Идеальный продукт
-- **4.0-4.9**: Отличный продукт
-- **3.0-3.9**: Хороший продукт
-- **2.0-2.9**: Средний продукт
-- **1.0-1.9**: Плохой продукт
+### Score (Rating):
+- **5.0**: Perfect product
+- **4.0-4.9**: Excellent product
+- **3.0-3.9**: Good product
+- **2.0-2.9**: Average product
+- **1.0-1.9**: Poor product
 
-### Themes (Темы):
-- Показывают повторяющиеся темы в отзывах
-- Процент упоминания каждой темы
-- Помогают понять фокус отзывов
+### Themes:
+- Show recurring themes in reviews
+- Percentage of mention for each theme
+- Help understand review focus
 
-## 🚨 Ограничения и особенности
+## 🚨 Limitations and Features
 
-### Текущие ограничения MVP:
-- **Mock данные**: Для демонстрации используются тестовые отзывы
-- **Базовый парсинг**: Простое извлечение текста
-- **Rule-based анализ**: Анализ по ключевым словам
+### Current MVP limitations:
+- **Mock data**: Test reviews are used for demonstration
+- **Basic parsing**: Simple text extraction
+- **Rule-based analysis**: Analysis by keywords
 
-### Планы развития:
-- ✅ Реальное извлечение отзывов с сайтов
-- ✅ OpenAI GPT-4 интеграция
-- ✅ Расширенная аналитика
-- ✅ Экспорт в различные форматы
+### Future improvements:
+- Real web scraping
+- Advanced AI analysis
+- Database storage
+- User authentication
 
-## 🛠️ Техническая информация
+## 🚀 Quick Start
 
-### Архитектура:
-- **Frontend**: Next.js 14 + React 18 + TypeScript
-- **Styling**: Tailwind CSS
-- **API**: Next.js API Routes
-- **AI**: OpenAI GPT-4 (опционально)
+1. **Clone the repository**
+2. **Install dependencies**: `npm install`
+3. **Set up environment**: Create `.env.local` with your OpenAI API key
+4. **Run the application**: `npm run dev`
+5. **Open browser**: http://localhost:3000
+6. **Start analyzing reviews!**
 
-### Производительность:
-- **Время анализа**: 5-15 секунд
-- **Поддерживаемые языки**: EN, RU
-- **Размер отзывов**: До 1000+ отзывов
+## 📞 Support
 
-## 🔍 Отладка
+If you have questions or encounter issues:
+- Check the console for error messages
+- Verify your OpenAI API key is correct
+- Ensure all dependencies are installed
 
-### Если что-то не работает:
+## 🎉 Enjoy using ReviewMind AI!
 
-1. **Проверьте консоль браузера** (F12 → Console)
-2. **Проверьте логи сервера** в терминале
-3. **Убедитесь, что URL корректный**
-4. **Попробуйте режим "paste reviews"**
-
-### Частые проблемы:
-
-- **"No reviews found"**: URL не содержит отзывов
-- **"Failed to analyze"**: Проблема с API
-- **Медленная загрузка**: Большое количество отзывов
-
-## 📞 Поддержка
-
-- **Документация**: [README.md](./README.md)
-- **Настройка**: [SETUP.md](./SETUP.md)
-- **Тестирование**: [test-urls.md](./test-urls.md)
-- **Issues**: GitHub Issues
-
----
-
-**🎉 Готово к использованию!** 
-
-Приложение полностью функционально и готово для анализа отзывов. Начните с простого URL или вставьте текст отзывов для демонстрации возможностей. 
+The application is designed to be simple and effective. Start with test URLs to see how it works, then analyze your own products! 

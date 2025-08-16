@@ -7,13 +7,13 @@ function Header() {
       <div className="header-container">
         <div className="logo">
           <h1>ReviewAI</h1>
-          <span className="tagline">Умный анализ отзывов</span>
+          <span className="tagline">Smart Review Analysis</span>
         </div>
         <nav className="nav">
           <ul>
-            <li><a href="#home">Главная</a></li>
-            <li><a href="#about">О нас</a></li>
-            <li><a href="#contact">Контакты</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
       </div>

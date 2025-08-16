@@ -10,9 +10,9 @@ function ReviewList({ reviews, onDeleteReview }) {
     return (
       <section className="review-list-section">
         <div className="container">
-          <h2>Отзывы</h2>
+          <h2>Reviews</h2>
           <div className="no-reviews">
-            <p>Пока нет отзывов. Будьте первым!</p>
+            <p>No reviews yet. Be the first!</p>
           </div>
         </div>
       </section>
@@ -22,7 +22,7 @@ function ReviewList({ reviews, onDeleteReview }) {
   return (
     <section className="review-list-section">
       <div className="container">
-        <h2>Отзывы ({reviews.length})</h2>
+        <h2>Reviews ({reviews.length})</h2>
         <div className="reviews-grid">
           {reviews.map(review => (
             <div key={review.id} className="review-card">
@@ -35,12 +35,12 @@ function ReviewList({ reviews, onDeleteReview }) {
               <p className="review-comment">{review.comment}</p>
               <div className="review-footer">
                 <span className="review-date">
-                  {new Date(review.id).toLocaleDateString('ru-RU')}
+                  {new Date(review.id).toLocaleDateString('en-US')}
                 </span>
                 <button
                   className="delete-btn"
                   onClick={() => onDeleteReview(review.id)}
-                  aria-label="Удалить отзыв"
+                  aria-label="Delete review"
                 >
                   🗑️
                 </button>

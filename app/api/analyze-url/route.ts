@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { extractReviewsFromUrl, analyzeReviewsWithAI } from '@/lib/review-analyzer'
+import { extractReviewsFromUrl, analyzeReviewsWithAI } from '@/lib/review-analyzer-simple'
 import { generateSlug } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {
@@ -55,14 +55,14 @@ export async function POST(request: NextRequest) {
 
 async function extractProductInfo(url: string) {
   try {
-    // This would normally fetch the page and extract meta info
-    // For now, return basic info
+    // For MVP, return basic info
     return {
       title: 'Product from ' + extractDomain(url),
       image: null,
       sourceUrl: url
     }
-  } catch {
+  } catch (error) {
+    console.error('Failed to extract product info:', error)
     return {
       title: 'Product from ' + extractDomain(url),
       image: null,

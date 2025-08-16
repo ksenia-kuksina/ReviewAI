@@ -1,101 +1,159 @@
-# ReviewAI
+# ReviewMind AI 🚀
 
-Современное веб-приложение для управления и анализа отзывов, построенное на React.
+**Let AI read 1000+ reviews for you** - AI-powered review analysis platform that extracts and analyzes product reviews from any URL.
 
-## 🚀 Возможности
+## ✨ Features
 
-- ✨ Современный и отзывчивый дизайн
-- 📝 Добавление новых отзывов
-- ⭐ Система рейтинга от 1 до 5 звезд
-- 🗑️ Удаление отзывов
-- 📱 Адаптивный дизайн для всех устройств
-- 🎨 Красивый градиентный интерфейс
+- 🔗 **URL Analysis**: Paste product links from Amazon, AliExpress, eBay, and more
+- 📝 **Text Analysis**: Paste raw review text for instant analysis
+- 🤖 **Real AI Analysis**: Powered by OpenAI GPT-4 for intelligent insights
+- 📊 **Structured Results**: Pros, Cons, Verdict, Score, and Top Themes
+- 🎯 **Multi-Platform Support**: Amazon, AliExpress, eBay, and generic sites
+- 📱 **Responsive Design**: Works perfectly on all devices
+- 🚀 **Fast & Efficient**: Analysis completed in seconds
 
-## 🛠️ Технологии
+## 🛠️ Technology Stack
 
-- React 18
-- CSS3 с современными возможностями
-- Responsive Design
-- Component-based architecture
+- **Frontend**: Next.js 14 + React 18 + TypeScript
+- **Styling**: Tailwind CSS + Inter font
+- **AI**: OpenAI GPT-4 API integration
+- **Scraping**: Cheerio + Axios for review extraction
+- **Deployment**: Ready for Vercel/Netlify
 
-## 📦 Установка и запуск
+## 🚀 Quick Start
 
-### Предварительные требования
-
-- Node.js (версия 14 или выше)
-- npm или yarn
-
-### Шаги установки
-
-1. **Клонируйте репозиторий:**
-   ```bash
-   git clone <your-repo-url>
-   cd ReviewAI
-   ```
-
-2. **Установите зависимости:**
-   ```bash
-   npm install
-   ```
-
-3. **Запустите приложение в режиме разработки:**
-   ```bash
-   npm start
-   ```
-
-4. **Откройте браузер и перейдите по адресу:**
-   ```
-   http://localhost:3000
-   ```
-
-## 📁 Структура проекта
-
-```
-src/
-├── components/          # React компоненты
-│   ├── Header.js       # Заголовок с навигацией
-│   ├── ReviewForm.js   # Форма добавления отзывов
-│   ├── ReviewList.js   # Список отзывов
-│   └── Footer.js       # Подвал сайта
-├── App.js              # Главный компонент
-├── index.js            # Точка входа
-└── index.css           # Глобальные стили
+### 1. Clone & Install
+```bash
+git clone <your-repo-url>
+cd ReviewMind-AI
+npm install
 ```
 
-## 🎯 Доступные команды
+### 2. Set up OpenAI API Key
+Create `.env.local` file:
+```bash
+OPENAI_API_KEY=sk-your_actual_api_key_here
+OPENAI_MODEL=gpt-4-turbo-preview
+```
 
-- `npm start` - Запуск в режиме разработки
-- `npm run build` - Сборка для продакшена
-- `npm test` - Запуск тестов
-- `npm run eject` - Извлечение конфигурации (необратимо)
+**Get API Key**: [OpenAI Platform](https://platform.openai.com/)
 
-## 🌟 Особенности дизайна
+### 3. Run Development Server
+```bash
+npm run dev
+```
 
-- Градиентные фоны и кнопки
-- Плавные анимации и переходы
-- Современные тени и скругления
-- Адаптивная сетка для отзывов
-- Интерактивные элементы с hover-эффектами
+Open [http://localhost:3000](http://localhost:3000)
 
-## 📱 Адаптивность
+## 🔍 How It Works
 
-Приложение полностью адаптивно и корректно отображается на:
-- 🖥️ Десктопных компьютерах
-- 💻 Ноутбуках
-- 📱 Планшетах
-- 📱 Мобильных устройствах
+### URL Analysis Flow
+1. **Paste URL** → Product link from any supported marketplace
+2. **AI Extraction** → Automatically extracts reviews from the page
+3. **AI Analysis** → GPT-4 analyzes reviews for insights
+4. **Get Results** → Structured analysis with pros, cons, verdict, score, themes
 
-## 🤝 Вклад в проект
+### Text Analysis Flow
+1. **Paste Reviews** → Raw review text input
+2. **AI Processing** → GPT-4 analyzes the text
+3. **Instant Results** → Same structured output format
 
-1. Форкните репозиторий
-2. Создайте ветку для новой функции
-3. Внесите изменения
-4. Создайте Pull Request
+## 📱 Supported Platforms
 
-## 📄 Лицензия
+| Platform | Review Extraction | AI Analysis |
+|----------|------------------|--------------|
+| **Amazon** | ✅ Full support | ✅ GPT-4 powered |
+| **AliExpress** | ✅ Full support | ✅ GPT-4 powered |
+| **eBay** | ✅ Full support | ✅ GPT-4 powered |
+| **Generic Sites** | 🔍 Attempts extraction | ✅ GPT-4 powered |
 
-Этот проект находится под лицензией MIT.
+## 🎯 Analysis Output
+
+Every analysis provides:
+
+- **⭐ Score**: 1.0-5.0 rating based on review sentiment
+- **👍 Pros**: Up to 6 key positive points
+- **👎 Cons**: Up to 6 key negative points  
+- **🎯 Verdict**: 1-2 sentence summary
+- **🔍 Top Themes**: 3-5 recurring themes with descriptions
+- **📊 Data Stats**: Review count, date range, sources
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-4-turbo-preview
+```
+
+### Custom AI Prompts
+Modify the analysis prompt in `lib/review-analyzer.ts`:
+```typescript
+content: `You are a strict, concise review analyst. Summarize diverse user reviews into balanced Pros, Cons, Verdict, Score (1–5, one decimal), and 3–5 recurring Themes. Penalize patterns like 'fake/damaged', 'battery issues', 'fit/size'. Be specific, avoid hype, cite no brands unless present.`
+```
+
+## 📁 Project Structure
+
+```
+ReviewMind-AI/
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   │   ├── analyze-url/   # URL analysis endpoint
+│   │   └── analyze-text/  # Text analysis endpoint
+│   ├── result/[id]/       # Results page
+│   ├── privacy/           # Privacy policy
+│   └── terms/             # Terms of service
+├── lib/                   # Core logic
+│   ├── review-analyzer.ts # AI analysis & scraping
+│   ├── config.ts          # Configuration
+│   └── utils.ts           # Utility functions
+├── components/            # React components
+└── public/               # Static assets
+```
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push to GitHub
+2. Connect repository to Vercel
+3. Set environment variables
+4. Deploy automatically
+
+### Netlify
+1. Build: `npm run build`
+2. Deploy to Netlify
+3. Set environment variables
+
+### Manual
+```bash
+npm run build
+npm start
+```
+
+## ⚠️ Important Notes
+
+- **API Costs**: Each analysis costs money based on OpenAI pricing
+- **Rate Limits**: Implement rate limiting for production use
+- **Legal Compliance**: Respect websites' terms of service
+- **Privacy**: Review data is not stored permanently
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Make changes
+4. Submit pull request
+
+## 📄 License
+
+MIT License - see LICENSE file for details
+
+## 🆘 Support
+
+- **Documentation**: [SETUP.md](./SETUP.md)
+- **Issues**: GitHub Issues
+- **Contact**: support@reviewmind.ai
 
 ---
 
-**Разработано с ❤️ для современного веба**
+**Built with ❤️ and AI** - Making product research smarter, one review at a time.

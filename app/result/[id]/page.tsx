@@ -24,6 +24,7 @@ interface AnalysisResult {
     themes: Array<{ name: string; desc: string }>
     verdict: string
     score: number
+    suggestions: string[]
   }
   rawSampleKept: number
   timestamp: string
@@ -77,7 +78,12 @@ export default function ResultPage() {
             { name: "Price", desc: "High cost concerns mentioned" }
           ],
           verdict: "High-quality wireless earbuds with excellent sound and battery life, but at a premium price that may not justify the cost for budget-conscious buyers.",
-          score: 4.2
+          score: 4.2,
+          suggestions: [
+            "Consider offering a more affordable version to address price concerns",
+            "Improve the mobile app functionality based on user feedback",
+            "Add wireless charging capability to the charging case"
+          ]
         },
         rawSampleKept: 10,
         timestamp: new Date().toISOString()
@@ -94,7 +100,7 @@ export default function ResultPage() {
 ReviewMind AI Analysis
 
 Product: ${result.product.title}
-Score: ${result.score}/5.0
+Score: ${result.summary.score}/5.0
 
 PROS:
 ${result.summary.pros.map(pro => `• ${pro}`).join('\n')}
@@ -107,6 +113,9 @@ ${result.summary.verdict}
 
 TOP THEMES:
 ${result.summary.themes.map(theme => `• ${theme.name}: ${theme.desc}`).join('\n')}
+
+SUGGESTIONS:
+${result.summary.suggestions.map(suggestion => `• ${suggestion}`).join('\n')}
 
 Based on ${result.stats.reviewsTotal} reviews from ${result.stats.sources.join(', ')}
     `.trim()
@@ -295,7 +304,7 @@ Based on ${result.stats.reviewsTotal} reviews from ${result.stats.sources.join('
           </div>
 
           {/* Themes */}
-          <div className="border-t pt-6">
+          <div className="border-t pt-6 mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
               <Target className="h-6 w-6 mr-2" />
               Top Themes
@@ -305,6 +314,24 @@ Based on ${result.stats.reviewsTotal} reviews from ${result.stats.sources.join('
                 <div key={index} className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-semibold text-gray-900 mb-2">{theme.name}</h3>
                   <p className="text-gray-600 text-sm">{theme.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Suggestions */}
+          <div className="border-t pt-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+              <svg className="h-6 w-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              Suggestions for Improvement
+            </h2>
+            <div className="space-y-3">
+              {result.summary.suggestions.map((suggestion, index) => (
+                <div key={index} className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-gray-700">{suggestion}</span>
                 </div>
               ))}
             </div>

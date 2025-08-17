@@ -15,6 +15,7 @@ export interface AnalysisResult {
   themes: Array<{ name: string; desc: string }>
   verdict: string
   score: number
+  suggestions: string[]
 }
 
 // Real AI analysis using OpenAI
@@ -39,11 +40,12 @@ Reviews:
 ${reviewsText}
 
 Please analyze the reviews and provide:
-1. 3-5 main PROS (positive aspects)
-2. 3-5 main CONS (negative aspects) 
+1. 3-6 main PROS (positive aspects)
+2. 3-6 main CONS (negative aspects) 
 3. 3-5 recurring themes with descriptions
 4. A concise verdict (1-2 sentences)
 5. Overall score (1.0-5.0)
+6. 2-3 actionable suggestions for improvement
 
 Format your response as JSON:
 {
@@ -51,17 +53,18 @@ Format your response as JSON:
   "cons": ["con1", "con2", "con3"],
   "themes": [{"name": "theme1", "desc": "description"}, {"name": "theme2", "desc": "description"}],
   "verdict": "Your verdict here",
-  "score": 4.2
+  "score": 4.2,
+  "suggestions": ["suggestion1", "suggestion2", "suggestion3"]
 }
 
-Focus on the most important and recurring points. Be honest and balanced.`
+Focus on the most important and recurring points. Be honest and balanced. Provide actionable suggestions based on the negative feedback.`
 
     const completion = await client.chat.completions.create({
       model: openai.model,
       messages: [
         {
           role: 'system',
-          content: 'You are a product review analyst. Analyze reviews objectively and provide balanced insights.'
+          content: 'You are a product review analyst. Analyze reviews objectively and provide balanced insights with actionable suggestions.'
         },
         {
           role: 'user',
@@ -69,7 +72,7 @@ Focus on the most important and recurring points. Be honest and balanced.`
         }
       ],
       temperature: 0.3,
-      max_tokens: 1000
+      max_tokens: 1200
     })
 
     const response = completion.choices[0]?.message?.content
@@ -85,7 +88,8 @@ Focus on the most important and recurring points. Be honest and balanced.`
         cons: parsed.cons || [],
         themes: parsed.themes || [],
         verdict: parsed.verdict || 'Analysis completed',
-        score: parsed.score || 3.0
+        score: parsed.score || 3.0,
+        suggestions: parsed.suggestions || []
       }
     } catch (parseError) {
       console.error('Failed to parse OpenAI response:', parseError)
@@ -122,14 +126,14 @@ function fallbackAnalysis(reviews: Review[]): AnalysisResult {
     const text = review.text.toLowerCase()
     
     positiveKeywords.forEach(keyword => {
-      if (text.includes(keyword) && pros.length < 5) {
+      if (text.includes(keyword) && pros.length < 6) {
         const keywordDisplay = keyword.charAt(0).toUpperCase() + keyword.slice(1)
         pros.push(`${keywordDisplay} mentioned`)
       }
     })
     
     negativeKeywords.forEach(keyword => {
-      if (text.includes(keyword) && cons.length < 5) {
+      if (text.includes(keyword) && cons.length < 6) {
         const keywordDisplay = keyword.charAt(0).toUpperCase() + keyword.slice(1)
         cons.push(`${keywordDisplay} issues reported`)
       }
@@ -152,19 +156,21 @@ function fallbackAnalysis(reviews: Review[]): AnalysisResult {
   } else {
     verdict = 'Product has significant issues based on user feedback.'
   }
+
+  const suggestions = [
+    'Consider addressing the most common negative feedback points',
+    'Focus on improving areas mentioned in multiple reviews',
+    'Highlight positive aspects in marketing materials'
+  ]
   
   return {
-    pros: pros.slice(0, 5),
-    cons: cons.slice(0, 5),
+    pros: pros.slice(0, 6),
+    cons: cons.slice(0, 6),
     themes: themes.slice(0, 3),
     verdict,
-    score: Math.round(avgRating * 10) / 10
+    score: Math.round(avgRating * 10) / 10,
+    suggestions
   }
-}
-
-export async function extractReviewsFromUrl(url: string): Promise<Review[]> {
-  // Generate unique reviews based on URL
-  return generateReviewsFromUrl(url)
 }
 
 export function parseRawReviews(rawText: string): Review[] {
@@ -200,100 +206,12 @@ export function parseRawReviews(rawText: string): Review[] {
   return reviews
 }
 
-function generateReviewsFromUrl(url: string): Review[] {
-  const domain = extractDomain(url)
-  const urlHash = hashString(url)
-  
-  const reviews: Review[] = []
-  const reviewCount = 5 + (urlHash % 10)
-  
-  for (let i = 0; i < reviewCount; i++) {
-    const review = generateReviewFromHash(urlHash + i, domain, i)
-    reviews.push(review)
-  }
-  
-  return reviews
-}
-
-function generateReviewFromHash(hash: number, domain: string, index: number): Review {
-  const authors = ['John D.', 'Sarah M.', 'Mike R.', 'Lisa K.', 'David L.', 'Emma W.', 'Alex P.', 'Maria S.', 'Tom H.', 'Anna B.']
-  const author = authors[hash % authors.length]
-  
-  const rating = 1 + (hash % 5)
-  const date = new Date(2024, 0, 1 + (hash % 365))
-  const text = generateReviewText(hash, domain, rating)
-  const helpful = hash % 20
-  
-  return {
-    author,
-    rating,
-    date: date.toISOString().split('T')[0],
-    text,
-    helpful
-  }
-}
-
-function generateReviewText(hash: number, domain: string, rating: number): string {
-  const positiveReviews = [
-    "Excellent product! Exceeded all my expectations. Quality is outstanding and delivery was fast.",
-    "Great buy! This product is amazing and works perfectly. Highly recommend to everyone.",
-    "Fantastic quality! The product is well-made and performs excellently. Very satisfied!",
-    "Outstanding value! This exceeded my expectations and I'm very happy with the purchase.",
-    "Wonderful product! The quality is exceptional and it works flawlessly. Love it!"
-  ]
-  
-  const mixedReviews = [
-    "Good product overall. Quality is decent but could be better. Price is reasonable.",
-    "Not bad, but not great either. It works but has some minor issues. Okay for the price.",
-    "Decent product with some pros and cons. Quality is acceptable but not exceptional.",
-    "Mixed feelings about this. Some good aspects but also some disappointments.",
-    "Average product. It does the job but nothing special. Price reflects the quality."
-  ]
-  
-  const negativeReviews = [
-    "Disappointed with this product. Quality is poor and it broke quickly. Not worth the money.",
-    "Terrible experience. The product is cheaply made and doesn't work properly. Avoid!",
-    "Poor quality product. Broke after a few uses and customer service was unhelpful.",
-    "Waste of money. The product is defective and doesn't function as advertised.",
-    "Very bad quality. This product is a complete disappointment. Don't recommend."
-  ]
-  
-  let domainSpecific = ""
-  if (domain.includes('amazon')) {
-    domainSpecific = " Purchased on Amazon and delivery was smooth."
-  } else if (domain.includes('aliexpress')) {
-    domainSpecific = " Ordered from AliExpress, shipping took a while but arrived safely."
-  } else if (domain.includes('ebay')) {
-    domainSpecific = " Found this on eBay, seller was reliable and item as described."
-  }
-  
-  let reviewText = ""
-  if (rating >= 4) {
-    reviewText = positiveReviews[hash % positiveReviews.length]
-  } else if (rating >= 3) {
-    reviewText = mixedReviews[hash % mixedReviews.length]
-  } else {
-    reviewText = negativeReviews[hash % negativeReviews.length]
-  }
-  
-  return reviewText + domainSpecific
-}
-
-function extractDomain(url: string): string {
+// Utility function for extracting domain from URLs (for future API integrations)
+export function extractDomain(url: string): string {
   try {
     const domain = new URL(url).hostname
     return domain.replace('www.', '')
   } catch {
     return 'unknown'
   }
-}
-
-function hashString(str: string): number {
-  let hash = 0
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
-    hash = hash & hash
-  }
-  return Math.abs(hash)
 } 

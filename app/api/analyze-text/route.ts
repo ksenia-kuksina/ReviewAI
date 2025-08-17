@@ -6,28 +6,35 @@ export async function POST(request: NextRequest) {
   try {
     const { rawText } = await request.json()
 
-    if (!rawText || rawText.trim().length < 50) {
+    if (!rawText || typeof rawText !== 'string') {
+      return NextResponse.json(
+        { error: 'Review text is required' },
+        { status: 400 }
+      )
+    }
+
+    if (rawText.trim().length < 50) {
       return NextResponse.json(
         { error: 'Please provide at least 50 characters of review text' },
         { status: 400 }
       )
     }
 
-    // Parse raw text into structured reviews
+    // Parse and analyze reviews
     const reviews = parseRawReviews(rawText)
     
     if (reviews.length === 0) {
       return NextResponse.json(
-        { error: 'Could not parse any reviews from the provided text' },
+        { error: 'No valid reviews found in the text. Please ensure the text contains review content.' },
         { status: 400 }
       )
     }
 
-    // Analyze reviews with AI
     const analysis = await analyzeReviewsWithAI(reviews)
-
+    
+    // Generate result
     const result = {
-      id: generateSlug(rawText.substring(0, 50)),
+      id: generateSlug('manual-reviews'),
       product: {
         title: 'Reviews Analysis',
         image: null,
@@ -35,20 +42,21 @@ export async function POST(request: NextRequest) {
       },
       stats: {
         reviewsTotal: reviews.length,
-        dateFrom: reviews[0]?.date || null,
-        dateTo: reviews[reviews.length - 1]?.date || null,
+        dateFrom: null,
+        dateTo: null,
         sources: ['pasted-text']
       },
       summary: analysis,
-      rawSampleKept: Math.min(reviews.length, 10),
+      rawSampleKept: reviews.length,
       timestamp: new Date().toISOString()
     }
 
     return NextResponse.json(result)
+
   } catch (error) {
-    console.error('Error analyzing text:', error)
+    console.error('Text analysis error:', error)
     return NextResponse.json(
-      { error: 'Failed to analyze reviews text' },
+      { error: 'Failed to analyze reviews. Please try again.' },
       { status: 500 }
     )
   }

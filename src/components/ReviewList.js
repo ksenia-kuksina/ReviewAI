@@ -42,7 +42,7 @@ function ReviewList({ reviews, onDeleteReview }) {
                   onClick={() => onDeleteReview(review.id)}
                   aria-label="Delete review"
                 >
-                  🗑️
+                  
                 </button>
               </div>
             </div>
